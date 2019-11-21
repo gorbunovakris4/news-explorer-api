@@ -1,14 +1,6 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('../node_modules/celebrate');
+const { getUser } = require('../controllers/users');
 
-const {
-  getUser,
-} = require('../controllers/users');
-
-router.get('/me', celebrate({
-  cookies: Joi.object().keys({
-    userTocken: Joi.string(),
-  }),
-}), getUser);
+router.get('/me', getUser);
 
 module.exports = router;

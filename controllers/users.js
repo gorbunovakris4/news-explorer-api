@@ -51,7 +51,7 @@ function login(req, res, next) {
 }
 
 function getUser(req, res, next) {
-  User.find({ _id: req.params.userId })
+  User.find({ _id: req.user._id })
     .then((user) => {
       if (user.length === 0) {
         throw new NotFoundError('Нет пользователя с таким id');
