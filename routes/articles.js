@@ -7,9 +7,9 @@ const {
 
 router.get('/', getArticles);
 
-router.delete('/:ArticleId', celebrate({
+router.delete('/:articleId', celebrate({
   params: Joi.object().keys({
-    ArticleId: Joi.string().alphanum().length(24),
+    articleId: Joi.string().alphanum().length(24),
   }),
 }), deleteArticle);
 

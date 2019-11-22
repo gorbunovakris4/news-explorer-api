@@ -12,7 +12,7 @@ const articlesRouter = require('./routes/articles');
 const { celebrate, Joi, errors } = require('./node_modules/celebrate');
 const NotFoundError = require('./errors/not-found-err');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB_URL } = process.env;
 
 const { login, createUser } = require('./controllers/users');
 
@@ -31,7 +31,7 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-mongoose.connect('mongodb://localhost:27017/newsexplorerdb', {
+mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
