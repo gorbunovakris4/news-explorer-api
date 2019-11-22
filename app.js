@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { celebrate, Joi, errors } = require('celebrate');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
-const { celebrate, Joi, errors } = require('./node_modules/celebrate');
 const NotFoundError = require('./errors/not-found-err');
 const errorMessages = require('./error_messages.json');
 

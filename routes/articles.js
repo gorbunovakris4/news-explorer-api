@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('../node_modules/celebrate');
+const { celebrate, Joi } = require('celebrate');
 
 const {
   getArticles, deleteArticle, createArticle,
