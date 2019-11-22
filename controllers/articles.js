@@ -1,5 +1,6 @@
 const Article = require('../models/article');
 const BadRequestError = require('../errors/bad-request-err');
+const errorMessages = require('../error_messages.json');
 
 function getArticles(req, res, next) {
   Article.find({})
@@ -12,7 +13,7 @@ function deleteArticle(req, res, next) {
   Article.findOneAndDelete({ _id: req.params.articleId, owner: req.user._id })
     .then((article) => {
       if (!article) {
-        throw new BadRequestError('you can`t delete this article');
+        throw new BadRequestError(errorMessages.badArticleId);
       }
       res.send({ data: article });
     })

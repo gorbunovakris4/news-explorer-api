@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const errorMessages = require('../error_messages.json');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -22,16 +23,16 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (link) => /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.([-a-zA-Z0-9@:%_+.~#?&//=]*)([-a-zA-Z0-9@:%_+.~#?&//=]*)/g.test(link),
+      message: () => errorMessages.invalidLink,
     },
-    message: (link) => `${link.value} is not a valid link`,
   },
   image: {
     type: String,
     required: true,
     validate: {
       validator: (link) => /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.([-a-zA-Z0-9@:%_+.~#?&//=]*)([-a-zA-Z0-9@:%_+.~#?&//=]*)/g.test(link),
+      message: () => errorMessages.invalidLink,
     },
-    message: (link) => `${link.value} is not a valid link`,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

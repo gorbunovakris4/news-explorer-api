@@ -4,8 +4,10 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const AuthorizationError = require('../errors/authorization-err');
+const errorMessages = require('../error_messages.json');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
+const JWT_DEV_SECRET = require('../config');
 
 function createUser(req, res, next) {
   bcrypt.hash(req.body.password, 10)
@@ -26,7 +28,7 @@ function createUser(req, res, next) {
       });
     })
     .catch(() => {
-      next(new BadRequestError('Введенные данные не прошли валидацию'));
+      next(new BadRequestError(errorMessages.validationError));
     });
 }
 
@@ -35,9 +37,9 @@ function login(req, res, next) {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new AuthorizationError('Неправильные почта или пароль');
+        throw new AuthorizationError(errorMessages.authorizationError);
       } else {
-        const _id = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+        const _id = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_DEV_SECRET, { expiresIn: '7d' });
         res.cookie('jwt', _id, {
           httpOnly: true,
           maxAge: 604800,
@@ -46,7 +48,7 @@ function login(req, res, next) {
       }
     })
     .catch(() => {
-      next(new AuthorizationError('Неправильные почта или пароль'));
+      next(new AuthorizationError(errorMessages.authorizationError));
     });
 }
 
@@ -54,7 +56,7 @@ function getUser(req, res, next) {
   User.find({ _id: req.user._id })
     .then((user) => {
       if (user.length === 0) {
-        throw new NotFoundError('Нет пользователя с таким id');
+        throw new NotFoundError(errorMessages.badUserId);
       }
       res.send(user);
     })

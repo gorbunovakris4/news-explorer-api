@@ -11,8 +11,10 @@ const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
 const { celebrate, Joi, errors } = require('./node_modules/celebrate');
 const NotFoundError = require('./errors/not-found-err');
+const errorMessages = require('./error_messages.json');
 
-const { PORT = 3000, DB_URL } = process.env;
+const { PORT = 3000, DB_URL, NODE_ENV } = process.env;
+const DB_DEV_URL = require('./config');
 
 const { login, createUser } = require('./controllers/users');
 
@@ -31,7 +33,7 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-mongoose.connect(DB_URL, {
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : DB_DEV_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -57,7 +59,7 @@ app.use('/users', auth, usersRouter);
 app.use('/articles', auth, articlesRouter);
 
 app.use('*', (req, res, next) => {
-  next(new NotFoundError('Page not found'));
+  next(new NotFoundError(errorMessages.notFoundError));
 });
 
 app.use(errorLogger);
@@ -71,7 +73,7 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === 500
-        ? 'На сервере произошла ошибка'
+        ? errorMessages.serverError
         : message,
     });
 });

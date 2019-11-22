@@ -1,0 +1,10 @@
+{
+  "autorizationError": "invalid email or password",
+  "badArticleId":"no article with this id",
+  "badUserId": "no user with this id",
+  "emailValidationError": "Email is invalid",
+  "invalidLink": "Link is invalid",
+  "notFoundError": "Page not found",
+  "validationError": "input data is invalid",
+  "serverError": "Error on server"
+}
