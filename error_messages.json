@@ -1,5 +1,5 @@
 {
-  "autorizationError": "invalid email or password",
+  "authorizationError": "invalid email or password",
   "badArticleId":"no article with this id",
   "badUserId": "no user with this id",
   "emailValidationError": "Email is invalid",

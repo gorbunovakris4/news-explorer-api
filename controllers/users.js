@@ -53,12 +53,12 @@ function login(req, res, next) {
 }
 
 function getUser(req, res, next) {
-  User.find({ _id: req.user._id })
+  User.findById({ _id: req.user._id })
     .then((user) => {
       if (user.length === 0) {
         throw new NotFoundError(errorMessages.badUserId);
       }
-      res.send(user);
+      res.send({ name: user.name, email: user.email });
     })
     .catch(next);
 }
